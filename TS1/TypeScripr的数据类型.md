@@ -2,6 +2,6 @@
 
 首先需要了解，单文件时(进行练习时创建的一个一个ts文件， 还不太清楚在项目中的情况)，ts的所有文件默认都是在同一个作用域下编译的。如果一个变量名在其他文件下定义了，当前文件在此定义就会报错。如下图示例: 
 
-![image-20221210213938939](C:\Users\cyliu\AppData\Roaming\Typora\typora-user-images\image-20221210213938939.png)
+![](C:\Users\cyliu\Desktop\Snipaste_2022-12-10_21-48-34.png)
 
 意思就是说不能重复定义变量
