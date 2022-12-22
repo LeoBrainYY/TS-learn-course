@@ -320,4 +320,128 @@
    
    字面量推理
    
+   ```typescript
+   
+   const info = {
+     name: 'xiaoxin',
+     age: 18
+   }
+   
+   info.name = 'luffy'
+   
+   
+   type Method = 'GET' | 'POST'
+   function request (url: string, method: Method) {}
+   
+   // solution 1
+   // type Request = {
+   //   url: string,
+   //   method: Method
+   // }
+   
+   // solution 3
+   const options = {
+     url: 'https://www.xiaoxin.org/abc',
+     method: 'POST'
+   } as const
+   // as const类型推导的结果
+   // const options: {
+   //   readonly url: "https://www.xiaoxin.org/abc";
+   //   readonly method: "POST";
+   // }
+   
+   // solution 1
+   // 推荐使用这种方法
+   // const options: Request = {
+   //   url: 'https://www.xiaoxin.org/abc',
+   //   method: 'POST'
+   // } as const
+   
+   request(options.url, options.method) // Argument of type 'string' is not assignable to parameter of type 'Method'
+   
+   // solution 2 类型断言
+   // request(options.url, options.method) // Argument of type 'string' is not assignable to parameter of type 'Method'
+   // request(options.url, options.method as Method)
+   // 不对options加类型限制 类型推导推导出来options的method是string类型
+   
+   ```
+   
+   类型缩小(**Type narrowing**)
+   
+   1. ##### 在typescript中，检查返回的值type of是一种类型保护。TS对如果typeof操作不同的值进行编码
+   
+   ```typescript
+   
+   // 1.typeof
+   type IDType = number | string
+   function printID (id: IDType) {
+     if (typeof id === 'string') {
+       console.log(id.toUpperCase()) // (method) String.toUpperCase(): string
+     } else {
+       console.log(id) // (parameter) id: number
+     }
+   }
+   
+   // 2. === == !== 
+   type Direction = 'left' | 'right' | 'top' | 'bottom'
+   function printDirection (direction: Direction) {
+     console.log(direction) // (parameter) direction: Direction // Type inference(类型推导)
+     if (direction === 'left') {
+       console.log(direction)
+     } 
+   }
+   
+   // 3. instanceof
+   function printTime (time: string | Date) {
+     if (time instanceof Date) {
+       console.log(time.toUTCString())
+     } else {
+       console.log(time)
+     }
+   }
+   
+   class Student {
+     studying() {}
+   }
+   
+   class Teacher {
+     teaching() {}
+   }
+   
+   function work (p: Student | Teacher) {
+     if (p instanceof Student) {
+       p.studying
+     } else {
+       p.teaching()
+     }
+   }
+   
+   // 4. in
+   type Fish = {
+     swimming: () => void
+   }
+   
+   type Dog = {
+     running: () => void
+   }
+   
+   // 要求传入一个对象函数
+   function walk (animal: Fish | Dog) {
+     if ('swimming' in animal) {
+       animal.swimming() // (parameter) animal: Fish
+     } else {
+       animal.running() // (parameter) animal: Dog
+     }
+   }
+   
+   // 定义要传入的对象函数(字面量对象)
+   const fish: Fish = {
+     swimming () {
+       console.log('swimming')
+     }
+   }
+   
+   walk(fish)
+   ```
+   
    
