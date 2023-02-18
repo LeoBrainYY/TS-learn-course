@@ -156,6 +156,7 @@ console.log(result, result1) // 50 6
 
 
 // 在函数的重载中 实现函数是不能直接被调用的
+// ts会先去定义的函数里面匹配类型 类型匹配才回去执行实现函数
 // add({age: 18}, {name: xiaoxin}) // No overload matches this call.
 
 ```
